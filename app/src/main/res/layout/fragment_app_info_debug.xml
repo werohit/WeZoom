@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_alignParentStart="true">
+        <LinearLayout android:layout_gravity="center_horizontal" android:orientation="vertical" android:paddingLeft="@dimen/content_padding" android:paddingRight="@dimen/content_padding" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textAppearance="@style/TextAppearance.AppCompat.Headline" android:gravity="center" android:layout_gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/content_part_margin_top" android:layout_marginBottom="@dimen/content_part_margin_bottom" android:text="@string/debug_header" />
+            <TextView android:gravity="center" android:layout_gravity="center" android:id="@id/debugInformation" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/content_part_margin_bottom" android:textIsSelectable="true" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

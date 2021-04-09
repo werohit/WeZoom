@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/title_settings_category_zoom" android:key="PREF_CATEGORY_ZOOM">
+        <ListPreference android:entries="@array/maxZoomLevels" android:title="@string/title_settings_max_zoom_level" android:key="MAX_ZOOM_LEVEL_EXTENSION" android:summary="@string/desc_settings_max_zoom_level" android:defaultValue="0" android:entryValues="@array/maxZoomLevelValues" />
+        <CheckBoxPreference android:title="@string/title_settings_show_zoom_status" android:key="SHOW_ZOOM_STATUS" android:summary="@string/desc_settings_show_zoom_status" android:defaultValue="true" />
+        <CheckBoxPreference android:title="@string/title_settings_camera_zoom_ratios" android:key="ENABLE_CAMERA_ZOOM_RATIOS" android:summary="@string/desc_settings_camera_zoom_ratios" android:defaultValue="true" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/title_settings_category_general">
+        <PreferenceScreen android:title="@string/title_settings_color_filter" android:key="screen_preference" android:summary="@string/desc_settings_color_filter">
+            <PreferenceCategory android:title="@string/title_settings_color_filter">
+                <CheckBoxPreference android:icon="@drawable/shape_black_on_white" android:title="@string/settings_color_filter_black_on_white" android:key="BLACK_ON_WHITE" android:defaultValue="true" />
+                <CheckBoxPreference android:icon="@drawable/shape_white_on_black" android:title="@string/settings_color_filter_white_on_black" android:key="WHITE_ON_BLACK" android:defaultValue="true" />
+                <CheckBoxPreference android:icon="@drawable/shape_black_on_yellow" android:title="@string/settings_color_filter_black_on_yellow" android:key="BLACK_ON_YELLOW" android:defaultValue="false" />
+                <CheckBoxPreference android:icon="@drawable/shape_yellow_on_black" android:title="@string/settings_color_filter_yellow_on_black" android:key="YELLOW_ON_BLACK" android:defaultValue="true" />
+                <CheckBoxPreference android:icon="@drawable/shape_blue_on_white" android:title="@string/settings_color_filter_blue_on_white" android:key="BLUE_ON_WHITE" android:defaultValue="false" />
+                <CheckBoxPreference android:icon="@drawable/shape_white_on_blue" android:title="@string/settings_color_filter_white_on_blue" android:key="WHITE_ON_BLUE" android:defaultValue="false" />
+                <CheckBoxPreference android:icon="@drawable/shape_blue_on_yellow" android:title="@string/settings_color_filter_blue_on_yellow" android:key="BLUE_ON_YELLOW" android:defaultValue="false" />
+                <CheckBoxPreference android:icon="@drawable/shape_yellow_on_blue" android:title="@string/settings_color_filter_yellow_on_blue" android:key="YELLOW_ON_BLUE" android:defaultValue="true" />
+                <CheckBoxPreference android:icon="@drawable/shape_black_on_green" android:title="@string/settings_color_filter_black_on_green" android:key="BLACK_ON_GREEN" android:defaultValue="false" />
+                <CheckBoxPreference android:icon="@drawable/shape_green_on_black" android:title="@string/settings_color_filter_green_on_black" android:key="GREEN_ON_BLACK" android:defaultValue="false" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+        <CheckBoxPreference android:title="@string/title_settings_more_color_details" android:key="ENABLE_MORE_COLOR_DETAILS" android:summary="@string/desc_settings_more_color_detail" android:defaultValue="true" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/title_settings_category_camera" android:key="PREF_CATEGORY_CAMERA">
+        <CheckBoxPreference android:title="@string/title_settings_flashlight_on_startup" android:key="ENABLE_FLASHLIGHT_ON_STARTUP" android:summary="@string/desc_settings_flashlight_on_startup" android:defaultValue="false" />
+        <CheckBoxPreference android:title="@string/title_settings_highest_quality" android:key="ENABLE_HIGHEST_PREVIEW_SIZE" android:summary="@string/desc_settings_highest_quality" android:defaultValue="true" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/title_settings_category_misc" android:key="PREF_CATEGORY_MISC">
+        <ListPreference android:entries="@array/volumeKeyTriggers" android:title="@string/title_settings_volume_key_triggers" android:key="VOLUME_KEY_TRIGGER" android:summary="@string/desc_settings_volume_key_triggers" android:defaultValue="10" android:entryValues="@array/volumeKeyTriggerValues" />
+        <CheckBoxPreference android:title="@string/title_settings_allow_fullscreen_lock" android:key="ALLOW_FULLSCREEN_LOCK" android:summary="@string/desc_settings_allow_fullscreen_lock" android:defaultValue="false" />
+        <CheckBoxPreference android:title="@string/title_settings_allow_advanced_gestures" android:key="ALLOW_ADVANCED_GESTURES" android:summary="@string/desc_settings_allow_advanced_gestures" android:defaultValue="false" />
+        <CheckBoxPreference android:title="@string/title_settings_lefthanded" android:key="ENABLE_LEFTHANDED_MODE" android:summary="@string/desc_settings_lefthanded" android:defaultValue="false" />
+        <ListPreference android:entries="@array/themes" android:title="@string/title_settings_themes" android:key="THEME" android:summary="@string/desc_settings_themes" android:defaultValue="1" android:entryValues="@array/themesValues" />
+        <CheckBoxPreference android:title="@string/title_settings_keep_images" android:key="KEEP_SAVED_IMAGES" android:summary="@string/desc_settings_keep_images" android:defaultValue="false" />
+        <CheckBoxPreference android:title="@string/title_settings_show_share_image_dialog" android:key="OPEN_SHARE_IMAGE_DIALOG" android:summary="@string/desc_settings_show_share_image_dialog" android:defaultValue="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

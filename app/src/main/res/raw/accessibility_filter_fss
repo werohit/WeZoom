@@ -1,0 +1,344 @@
+#extension GL_OES_EGL_image_external : require
+
+precision mediump float;
+uniform samplerExternalOES sTexture;
+varying vec2 texCoord;
+uniform int selectedAccessibilityMode;
+uniform int enableMoreColorDetails;
+uniform float threshold;
+
+const vec4 luminanceCoeff = vec4(0.299, 0.587, 0.114, 0);
+
+void main() {
+    vec4 col = texture2D(sTexture, texCoord.xy);
+    float luminance = dot(col, luminanceCoeff);
+
+    //unfiltered
+    if (selectedAccessibilityMode == 1) {
+
+        //handle contrast
+        float contrastFactor = 1.0;
+        if(threshold < 0.5){
+            contrastFactor = threshold + 0.5;
+            //weaken the effect of reducing contrasts
+            contrastFactor = contrastFactor + ((1.0 - contrastFactor) / 2.0);
+        }else{
+            contrastFactor = threshold + 0.5;
+        }
+        gl_FragColor = vec4(col.r * contrastFactor, col.g * contrastFactor, col.b * contrastFactor, 1.0);
+        //gl_FragColor = col;
+    }
+
+    //Red,Blue,Yellow
+    //if (selectedAccessibilityMode == 1) {
+    //    //gl_FragColor = col;
+    //    lowp vec3 tc = vec3(1.0, 0.0, 0.0);
+    //
+    //    lowp vec3 pixcol = col.rgb;
+    //    lowp vec3 colors[3];
+    //    colors[0] = vec3(0.0, 0.0, 1.0);
+    //    colors[1] = vec3(1.0, 1.0, 0.0);
+    //    colors[2] = vec3(1.0, 0.0, 0.0);
+    //    mediump float lum = (pixcol.r + pixcol.g + pixcol.b) / 3.0;
+    //    int ix = (lum < 0.5)? 0:1;
+    //    tc = mix(colors[ix], colors[ix + 1], (lum - float(ix) * 0.5) / 0.5);
+    //
+    //    gl_FragColor = vec4(tc, 1.0);
+    //}
+
+    //black on white
+    if (selectedAccessibilityMode == 2) {
+        if (enableMoreColorDetails == 0) {
+            if (threshold < luminance) {
+                gl_FragColor = vec4(1, 1, 1, 1);
+            }else {
+                gl_FragColor = vec4(0, 0, 0, 1);
+            }
+        }else{
+            float average = (col.r + col.g + col.b) / 3.0;
+
+            //Increase contrast
+            float contrastFactor = threshold * 3.0;
+            average += (average - 0.5) * contrastFactor;
+
+            gl_FragColor = vec4(average, average, average, 1.0);
+        }
+
+    }
+
+    //white on black
+    if (selectedAccessibilityMode == 3) {
+        if (enableMoreColorDetails == 0) {
+            if (threshold < luminance) {
+                gl_FragColor = vec4(0, 0, 0, 1);
+            }else {
+                gl_FragColor = vec4(1, 1, 1, 1);
+            }
+        }else{
+            float average = (col.r + col.g + col.b) / 3.0;
+
+            // Increase contrast
+            float contrastFactor = threshold * 3.0;
+            average += (average - 0.5) * contrastFactor;
+
+            gl_FragColor = vec4(average, average, average, 1.0);
+            gl_FragColor.rgb = 1. - gl_FragColor.rgb;
+        }
+    }
+
+    //black on yellow
+    if (selectedAccessibilityMode == 4) {
+        if (enableMoreColorDetails == 0) {
+            if (threshold < luminance) {
+                gl_FragColor = vec4(1, 1, 0, 1);
+            }else {
+              gl_FragColor = vec4(0, 0, 0, 1);
+            }
+        }else{
+            float average = (col.r + col.g + col.b) / 3.0;
+
+            //Increase contrast
+            float contrastFactor = threshold * 3.0;
+            average += (average - 0.5) * contrastFactor;
+
+            gl_FragColor = vec4(average, average, average, 1.0);
+
+            vec3 color1 = vec3(1.0, 1.0, 0.0);
+            vec3 color2 = vec3(0.0,0.0,0.0);
+
+            float luma = 0.2126 * gl_FragColor.r + 0.7152 * gl_FragColor.g + 0.0722 * gl_FragColor.b;
+
+            float r = color2.x + luma * (color1.x - color2.x);
+            float g = color2.y + luma * (color1.y - color2.y);
+            float b = color2.z + luma * (color1.z - color2.z);
+
+            vec4 color = vec4(r, g, b,1.0);
+
+            gl_FragColor = color;//Set the screen pixel to that color
+        }
+    }
+
+    //yellow on black
+    if (selectedAccessibilityMode == 5) {
+        if (enableMoreColorDetails == 0) {
+            if (threshold < luminance) {
+                gl_FragColor = vec4(0, 0, 0, 1);
+            }else {
+              gl_FragColor = vec4(1, 1, 0, 1);
+            }
+        }else{
+            float average = (col.r + col.g + col.b) / 3.0;
+
+            //Increase contrast
+            float contrastFactor = threshold * 3.0;
+            average += (average - 0.5) * contrastFactor;
+
+            gl_FragColor = vec4(average, average, average, 1.0);
+
+            vec3 color1 = vec3(0.0,0.0,0.0);
+            vec3 color2 = vec3(1.0, 1.0, 0.0);
+
+            float luma = 0.2126 * gl_FragColor.r + 0.7152 * gl_FragColor.g + 0.0722 * gl_FragColor.b;
+
+            float r = color2.x + luma * (color1.x - color2.x);
+            float g = color2.y + luma * (color1.y - color2.y);
+            float b = color2.z + luma * (color1.z - color2.z);
+
+            vec4 color = vec4(r, g, b,1.0);
+
+            gl_FragColor = color;//Set the screen pixel to that color
+        }
+    }
+
+    //blue on white
+    if (selectedAccessibilityMode == 6) {
+        if (enableMoreColorDetails == 0) {
+            if (threshold < luminance) {
+                gl_FragColor = vec4(1, 1, 1, 1);
+            }else {
+                gl_FragColor = vec4(0, 0, 1, 1);
+            }
+        }else{
+            float average = (col.r + col.g + col.b) / 3.0;
+
+            //Increase contrast
+            float contrastFactor = threshold * 3.0;
+            average += (average - 0.5) * contrastFactor;
+
+            gl_FragColor = vec4(average, average, average, 1.0);
+
+            vec3 color1 = vec3(1.0,1.0,1.0);
+            vec3 color2 = vec3(0.0, 0.0, 1.0);
+
+            float luma = 0.2126 * gl_FragColor.r + 0.7152 * gl_FragColor.g + 0.0722 * gl_FragColor.b;
+
+            float r = color2.x + luma * (color1.x - color2.x);
+            float g = color2.y + luma * (color1.y - color2.y);
+            float b = color2.z + luma * (color1.z - color2.z);
+
+            vec4 color = vec4(r, g, b,1.0);
+
+            gl_FragColor = color;//Set the screen pixel to that color
+        }
+    }
+
+    //white on blue
+    if (selectedAccessibilityMode == 7) {
+        if (enableMoreColorDetails == 0) {
+            if (threshold < luminance) {
+                gl_FragColor = vec4(0, 0, 1, 1);
+            }else {
+                gl_FragColor = vec4(1, 1, 1, 1);
+            }
+        }else{
+            float average = (col.r + col.g + col.b) / 3.0;
+
+            //Increase contrast
+            float contrastFactor = threshold * 3.0;
+            average += (average - 0.5) * contrastFactor;
+
+            gl_FragColor = vec4(average, average, average, 1.0);
+
+            vec3 color1 = vec3(0.0, 0.0, 1.0);
+            vec3 color2 = vec3(1.0,1.0,1.0);
+
+            float luma = 0.2126 * gl_FragColor.r + 0.7152 * gl_FragColor.g + 0.0722 * gl_FragColor.b;
+
+            float r = color2.x + luma * (color1.x - color2.x);
+            float g = color2.y + luma * (color1.y - color2.y);
+            float b = color2.z + luma * (color1.z - color2.z);
+
+            vec4 color = vec4(r, g, b,1.0);
+
+            gl_FragColor = color;//Set the screen pixel to that color
+        }
+    }
+
+    //blue on yellow
+    if (selectedAccessibilityMode == 8) {
+        if (enableMoreColorDetails == 0) {
+            if (threshold < luminance) {
+                gl_FragColor = vec4(1, 1, 0, 1);
+            }else {
+                gl_FragColor = vec4(0, 0, 1, 1);
+            }
+        }else{
+            float average = (col.r + col.g + col.b) / 3.0;
+
+            //Increase contrast
+            float contrastFactor = threshold * 3.0;
+            average += (average - 0.5) * contrastFactor;
+
+            gl_FragColor = vec4(average, average, average, 1.0);
+
+            vec3 color1 = vec3(1.0, 1.0, 0.0);
+            vec3 color2 = vec3(0.0,0.0,1.0);
+
+            float luma = 0.2126 * gl_FragColor.r + 0.7152 * gl_FragColor.g + 0.0722 * gl_FragColor.b;
+
+            float r = color2.x + luma * (color1.x - color2.x);
+            float g = color2.y + luma * (color1.y - color2.y);
+            float b = color2.z + luma * (color1.z - color2.z);
+
+            vec4 color = vec4(r, g, b,1.0);
+
+            gl_FragColor = color;//Set the screen pixel to that color
+        }
+    }
+
+    //yellow on blue
+    if (selectedAccessibilityMode == 9) {
+        if (enableMoreColorDetails == 0) {
+            if (threshold < luminance) {
+                gl_FragColor = vec4(0, 0, 1, 1);
+            }else {
+                gl_FragColor = vec4(1, 1, 0, 1);
+            }
+        }else{
+            float average = (col.r + col.g + col.b) / 3.0;
+
+            //Increase contrast
+            float contrastFactor = threshold * 3.0;
+            average += (average - 0.5) * contrastFactor;
+
+            gl_FragColor = vec4(average, average, average, 1.0);
+
+            vec3 color1 = vec3(0.0,0.0,1.0);
+            vec3 color2 = vec3(1.0, 1.0, 0.0);
+
+            float luma = 0.2126 * gl_FragColor.r + 0.7152 * gl_FragColor.g + 0.0722 * gl_FragColor.b;
+
+            float r = color2.x + luma * (color1.x - color2.x);
+            float g = color2.y + luma * (color1.y - color2.y);
+            float b = color2.z + luma * (color1.z - color2.z);
+
+            vec4 color = vec4(r, g, b,1.0);
+
+            gl_FragColor = color;//Set the screen pixel to that color
+        }
+    }
+
+    //black on green
+    if (selectedAccessibilityMode == 10) {
+        if (enableMoreColorDetails == 0) {
+            if (threshold < luminance) {
+                gl_FragColor = vec4(0, 1, 0, 1);
+            }else {
+              gl_FragColor = vec4(0, 0, 0, 1);
+            }
+        }else{
+            float average = (col.r + col.g + col.b) / 3.0;
+
+            //Increase contrast
+            float contrastFactor = threshold * 3.0;
+            average += (average - 0.5) * contrastFactor;
+
+            gl_FragColor = vec4(average, average, average, 1.0);
+
+            vec3 color1 = vec3(0.0, 1.0, 0.0);
+            vec3 color2 = vec3(0.0,0.0,0.0);
+
+            float luma = 0.2126 * gl_FragColor.r + 0.7152 * gl_FragColor.g + 0.0722 * gl_FragColor.b;
+
+            float r = color2.x + luma * (color1.x - color2.x);
+            float g = color2.y + luma * (color1.y - color2.y);
+            float b = color2.z + luma * (color1.z - color2.z);
+
+            vec4 color = vec4(r, g, b,1.0);
+
+            gl_FragColor = color;//Set the screen pixel to that color
+        }
+    }
+
+    //green on black
+    if (selectedAccessibilityMode == 11) {
+        if (enableMoreColorDetails == 0) {
+            if (threshold < luminance) {
+                gl_FragColor = vec4(0, 0, 0, 1);
+            }else {
+              gl_FragColor = vec4(0, 1, 0, 1);
+            }
+        }else{
+            float average = (col.r + col.g + col.b) / 3.0;
+
+            //Increase contrast
+            float contrastFactor = threshold * 3.0;
+            average += (average - 0.5) * contrastFactor;
+
+            gl_FragColor = vec4(average, average, average, 1.0);
+
+            vec3 color1 = vec3(0.0,0.0,0.0);
+            vec3 color2 = vec3(0.0, 1.0, 0.0);
+
+            float luma = 0.2126 * gl_FragColor.r + 0.7152 * gl_FragColor.g + 0.0722 * gl_FragColor.b;
+
+            float r = color2.x + luma * (color1.x - color2.x);
+            float g = color2.y + luma * (color1.y - color2.y);
+            float b = color2.z + luma * (color1.z - color2.z);
+
+            vec4 color = vec4(r, g, b,1.0);
+
+            gl_FragColor = color;//Set the screen pixel to that color
+        }
+    }
+}

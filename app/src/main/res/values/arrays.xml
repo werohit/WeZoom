@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="maxZoomLevelValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+    <string-array name="maxZoomLevels">
+        <item>+0</item>
+        <item>+1</item>
+        <item>+2</item>
+        <item>+3</item>
+        <item>+4</item>
+        <item>+5</item>
+        <item>+6</item>
+    </string-array>
+    <string-array name="themes">
+        <item>@string/theme_default</item>
+        <item>@string/theme_t1_colorful_buttons</item>
+    </string-array>
+    <string-array name="themesValues">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="volumeKeyTriggerValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="volumeKeyTriggers">
+        <item>@string/vol_key_trigger_none</item>
+        <item>@string/vol_key_trigger_zoom</item>
+        <item>@string/vol_key_trigger_colorfilter</item>
+        <item>@string/vol_key_trigger_exposure</item>
+        <item>@string/vol_key_trigger_threshold</item>
+        <item>@string/vol_key_trigger_flashlight</item>
+        <item>@string/vol_key_trigger_pause</item>
+        <item>@string/vol_key_trigger_take_picture</item>
+        <item>@string/vol_key_trigger_combo_color_filter_and_flashlight</item>
+        <item>@string/vol_key_trigger_combo_color_filter_and_pause</item>
+        <item>@string/vol_key_trigger_combo_flashlight_and_pause</item>
+        <item>@string/vol_key_trigger_combo_flashlight_and_take_picture</item>
+    </string-array>
+</resources>
